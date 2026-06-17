@@ -514,6 +514,26 @@ function binarySearchTree()
         return this.root;
     }
 
+    this.invert = function()
+    {
+        function invertNode(node)
+        {
+            if (node === null)
+            {
+                return null;
+            }
+
+            // swap
+            let temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+
+            invertNode(node.left);
+            invertNode(node.right);
+        }
+
+        invertNode(this.root);
+    }
     
 }
 
