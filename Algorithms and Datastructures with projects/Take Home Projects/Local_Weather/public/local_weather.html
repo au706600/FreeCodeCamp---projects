@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <title> Local Weather </title>
+        <meta charset="utf-8" />
+        <meta  
+        name="viewport"
+        http-equiv="content-type" content="device-width, initial-scale=1.0, shrink-to-fit=no"
+        />
+
+        <style>
+            body
+            {
+                margin: 0; 
+                padding: 0;
+                font-family: Arial, sans-serif;
+                background: linear-gradient(135deg, #56ccf2, #2f80ed);
+            }
+
+            ul
+            {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                overflow: hidden;
+                /*background-color: #333333;*/
+                background: linear-gradient(90deg, #1f1c2c, #2c3e50);
+            }
+
+            ul li
+            {
+                float: left;
+            }
+
+            ul li a 
+            {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            ul li :hover
+            {
+                background-color: #111111;
+            }
+
+            h1
+            {
+                font-family: 'Poppins', sans-serif;
+                font-size: 2.2rem;
+                font-weight: 600;
+                color: #2c2c2c;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .weather_wrapper
+            {
+                margin-top: 50px;
+                display:flex;
+                align-items: flex-start;
+                color: #252323;
+            }
+
+            .container_city
+            {
+                font-size: 50px; 
+                border-radius: 10px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                color: #444141;       
+                padding: 20px;
+                text-align: center;
+                margin-top: 20px;
+                width: 600px;
+                height: 500px;
+                /* Could also add flexbox */ 
+                margin-left: auto;
+                margin-right: auto;
+                position: relative;
+                overflow: auto;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                backdrop-filter: blur(10px);
+            }
+
+            .hidden
+            {
+                display: none;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <ul>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Sport</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Login</a></li> 
+        </ul>
+
+        <h1> Local Weather </h1>
+
+        <div class="weather_wrapper">
+            <div>
+            <input type="radio" id="celcius" name="temp" checked>
+            <label> Celcius </label> 
+            <br>
+            <br>
+            <input type="radio" id="fahrenheit" name="temp">
+            <label> Fahrenheit </label> <br>
+            </div>
+
+            <div class="container_city hidden">
+                <h2 id="name_of_city"></h2>
+                <img class="weather" style="width: 100px; height: 100px;"/>
+                <p id="current_temp"></p>
+            </div>
+        </div>
+        
+
+        <script>
+
+
+            //--------------------------------------------------------------------
+
+            const container_city = document.querySelector(".container_city");
+            const current_temp = document.getElementById("current_temp");
+            const name_of_city = document.getElementById("name_of_city");
+            const temp_fahrenheit = document.getElementById("fahrenheit");
+            const temp_celcius = document.getElementById("celcius");
+            const weather = document.querySelector(".weather");
+
+            window.addEventListener("DOMContentLoaded", () => {
+
+                async function success(position)
+                {
+                    const getCurrentLocation = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+
+                    const response = await fetch('/weather', {
+                        method: 'POST', 
+                        headers: {'content-type': 'application/json'}, 
+                        body: JSON.stringify(getCurrentLocation)
+                    });
+
+                    const data = await response.json();
+
+                    console.log("Data: ", data);
+
+                    if(data.main.temp)
+                    {
+                        container_city.classList.remove('hidden');
+                        name_of_city.textContent = `${data.name}`;
+                        weather.src=data.weather[0].icon;
+                        current_temp.textContent = `Temp: ${Math.round(data.main.temp)} °C`;
+                    }
+
+                    /*
+                    if(temp_fahrenheit.checked)
+                    {
+                        container_city.classList.remove('hidden');
+                        name_of_city.textContent = `${data.name}`;
+                        current_temp.textContent = `Temp: ${Math.round((data.main.temp * 1.8) + 32)} °F`;
+                    }
+
+                    */
+
+                    temp_fahrenheit.addEventListener("change", event => {
+                        container_city.classList.remove('hidden');
+                        name_of_city.textContent = `${data.name}`;
+                        weather.src=data.weather[0].icon;
+                        current_temp.textContent = `Temp: ${Math.round((data.main.temp * 1.8) + 32)} °F`;
+                    });
+
+                    temp_celcius.addEventListener("change", event => 
+                    {
+                        container_city.classList.remove('hidden');
+                        name_of_city.textContent = `${data.name}`;
+                        weather.src=data.weather[0].icon;
+                        current_temp.textContent = `Temp: ${Math.round(data.main.temp)} °C`;
+                    });
+
+                }
+
+                function errorCallBack(error)
+                {
+                    alert(`ERROR(${error.code}): ${error.message}`);
+                }
+
+                if (navigator.geolocation)
+                {
+                    navigator.geolocation.getCurrentPosition(success, errorCallBack);
+                }
+
+                else
+                {
+                    throw new Error("Location is not valid");
+                }
+            });
+
+        </script>
+
+    </body>
+
+</html>
+
+
+<!--- 
+Viborg Coordinates: 
+
+Latitude: 56.4533
+
+Longitude: 9.4019
+
+Aarhus Coordinates: 
+
+Latitude: 56.1567
+
+Longitude: 10.2108
+
+-->
