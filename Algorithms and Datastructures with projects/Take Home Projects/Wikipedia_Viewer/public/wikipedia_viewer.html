@@ -1,0 +1,143 @@
+
+<!doctype html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta 
+        name="viewport"
+        http-equiv="content-type" content="width=device-width", initial-scale="1.0", shrink-to-fit="no"
+         />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <style>
+            body
+            {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                overflow: hidden;
+            }
+
+            .topnav
+            {
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                background-color: rgb(32, 31, 31);
+            }
+
+            .topnav .right_part
+            {
+                display: block;
+                float: right;
+            }
+
+            .topnav .right_part a
+            {
+                color: rgb(232, 221, 221);
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            .topnav .right_part a:hover
+            {
+                background-color: #ccc;
+                color: black;
+            }
+
+            .topnav .right_part button
+            {
+                float: right;
+            }
+
+            .searcharea
+            {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: calc(100vh - 60px);
+                /*transition: all 0.3s ease; */
+            }
+
+            .searcharea.searched
+            {
+                justify-content: flex-start;
+                padding-top: 50px;
+            }
+
+            .mainbody
+            {
+                background-color: rgb(13, 12, 68);
+                height: calc(100vh - 20px);
+                overflow: auto;
+            }
+
+            #items
+            {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            
+            #arr-list
+            {
+                padding: 0;
+                width: 600px;
+                cursor: pointer;
+            }
+            
+
+            #arr-list li
+            {
+                border: 2px solid #433e3e;
+                border-radius: 5px;
+                padding: 5px;
+                margin-bottom: 10px;
+                list-style-type: none;
+                color: black;
+                background-color: white;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        
+        <div class="topnav">
+             <div class="left_part">
+
+                <input type="text" placeholder="Search.." name="search" />
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+
+            <div class="right_part">
+                <a href="#Signin">Sign in</a>
+                <a href="#Login">Login</a>
+            </div>
+        </div>
+        
+        <div class="mainbody">
+            <div class="searcharea"> 
+                <p id="text" style="color: white"> Click here for a random article </p>
+                <input id="inputtxt" type="text">
+
+                <div id="items">
+                    <ul id="arr-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script src="wikiscript.js">
+            // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_searchbar3
+        </script>
+
+    </body>
+
+</html>
